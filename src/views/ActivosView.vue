@@ -5,11 +5,10 @@
   <form @submit.prevent="agregarActivos()">
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select">
-          <option selected>Seleccione una Categoria</option>
-          <option></option>
-          <option></option>
-          <option></option>
+        <select class="form-select" v-model="seleccionarCategoria">
+          <option value="undefined" disabled>Seleccione Una Categoria</option>
+          <option v-for="selectCategorias in categorias" :key="index">
+            {{selectCategorias.nombre}}</option>
         </select>
       </div>
     </div>
@@ -37,11 +36,10 @@
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select">
-          <option selected>Seleccione una Área</option>
-          <option></option>
-          <option></option>
-          <option></option>
+        <select class="form-select" v-model="seleccionarArea">
+          <option value="undefined" disabled>Seleccione Un departamento</option>
+          <option v-for="selectArea in area" :key="index">
+            {{selectArea.nombreArea}}</option>
         </select>
       </div>
     </div>
@@ -88,6 +86,8 @@
                 activosReg:{
 
                 },
+                categorias:[],
+                area:[],
                 activos:[]
             }
         },
@@ -114,11 +114,35 @@
                 })
                 .catch(e => console.log(e));
             },
+            getCategorias(){
+              axios({
+                method: "get",
+                url: "http://localhost:3000/categorias",
+              })
+              .then(response => {
+                this.categorias = response.data;
+                console.log(response);
+              })
+              .catch(e => console.log(e));
+            },
+            getArea(){
+                axios({
+                    method: "get",
+                    url: "http://localhost:3000/area"
+                })
+                .then(response => {
+                    this.area = response.data;
+                console.log(response);
+                })
+                .catch(e => console.log(e));
+            },
         },
         computed: {
         },
         mounted(){
             this.getActivosFijos()
+            this.getCategorias()
+            this.getArea()
         },
         components: {
         }
