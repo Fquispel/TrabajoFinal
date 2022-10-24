@@ -1,0 +1,62 @@
+{
+  "categorias": [
+    {
+      "nombre": "Computadoras",
+      "id": 1
+    },
+    {
+      "nombre": "Muebles y Articulos de Oficina",
+      "id": 2
+    },
+    {
+      "nombre": "Maquinarias",
+      "id": 3
+    }
+  ],
+  "area":[
+    {
+      "nombreArea": "Finanzas",
+      "nombreEncargado": "Jose Linares",
+      "numeroFuncionarios": "4",
+      "id": 1
+    },
+    {
+      "nombreArea": "Informatica",
+      "nombreEncargado": "Jose Suarez",
+      "numeroFuncionarios": "2",
+      "id": 2
+    },
+    {
+      "nombreArea": "Legal",
+      "nombreEncargado": "Luis Linares",
+      "numeroFuncionarios": "8",
+      "id": 3
+    }
+  ],
+  "activos":[
+    {
+      "id": 1,
+      "categoria":1,
+      "marca": "HP",
+      "modelo": "Pavillion 360",
+      "estado":"Usado",
+      "area":"1"
+    },
+    {
+      "id": 2,
+      "categoria":1,
+      "marca": "HP",
+      "modelo": "",
+      "estado":"",
+      "area":""
+    },
+    {
+      "id": 3,
+      "categoria":1,
+      "marca": "HP",
+      "modelo": "",
+      "estado":"",
+      "area":""
+    }
+  ]
+}
