@@ -31,9 +31,6 @@
       "nombreEncargado": "Luis Linares",
       "numeroFuncionarios": "8",
       "id": 3
-    },
-    {
-      "id": 4
     }
   ],
   "activos": [
@@ -46,20 +43,12 @@
       "area": "1"
     },
     {
-      "id": 2,
-      "categoria": 1,
-      "marca": "HP",
-      "modelo": "",
-      "estado": "",
-      "area": ""
-    },
-    {
-      "id": 3,
-      "categoria": 1,
-      "marca": "HP",
-      "modelo": "",
-      "estado": "",
-      "area": ""
+      "categoria": 2,
+      "marca": "as",
+      "modelo": "as",
+      "estado": "Nuevo",
+      "area": 3,
+      "id": 2
     }
   ]
 }

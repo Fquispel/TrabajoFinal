@@ -5,19 +5,19 @@
   <form @submit.prevent="agregarArea()">
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" placeholder="Area"
+        <input type="text" class="form-control col-4" v-model="areaReg.nombreArea" placeholder="Area" required
         aria-describedby="button-addon2">
       </div>
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" placeholder="Nombre del Encargado"
+        <input type="text" class="form-control col-4" v-model="areaReg.nombreEncargado" placeholder=" Nombre del Encargado" required
         aria-describedby="button-addon2">
       </div>
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" placeholder="Numero de Funcionarios"
+        <input type="text" class="form-control col-4" v-model="areaReg.numeroFuncionarios" placeholder="Numero de Funcionarios" required
         aria-describedby="button-addon2">
       </div>
     </div>
@@ -43,8 +43,8 @@
           <td>{{ departamento.nombreEncargado}}</td>
           <td>{{ departamento.numeroFuncionarios}}</td>
           <td>
-            <button @click="formActualizar(index)" class="btn btn-warning">Actualizar</button>
-            <button @click="borrarCategoria(index)" class="btn btn-danger">Borrar</button>
+            <button @click="actualizarArea(departamento.id)" class="btn btn-warning">Actualizar</button>
+            <button @click="borrarArea(departamento.id)" class="btn btn-danger">Borrar</button>
           </td>
         </tr>
       </tbody>
@@ -58,7 +58,9 @@
         data(){
             return {
                 areaReg:{
-
+                  nombreArea:null,
+                  nombreEncargado:null,
+                  numeroFuncionarios:null
                 },
                 area:[]
             }
@@ -72,6 +74,20 @@
                 })
                 .then(response => {
                     console.log(response);
+                    this.getArea()
+                })
+                .catch(e => console.log(e));
+            },
+            borrarArea(area_id){
+              if (confirm("Está seguro de eliminar el Departamento " + area_id + "?"))
+                axios({
+                    method: "delete",
+                    url: "http://localhost:3000/area/"+area_id,
+                    data: this.area
+                })
+                .then(response => {
+                    console.log(response);
+                    this.getArea()
                 })
                 .catch(e => console.log(e));
             },

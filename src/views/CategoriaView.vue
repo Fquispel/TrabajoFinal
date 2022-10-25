@@ -5,7 +5,7 @@
     <form @submit.prevent="agregarCategoria()">
       <div class="input-group mb-3 justify-content-center">
         <div class="input-group-prepend flex-colunm col-4">
-          <input type="text" class="form-control col-4" v-model="categoria.nombre" placeholder="Categoria"
+          <input type="text" class="form-control col-4" v-model="categoria.nombre" placeholder="Categoria" required
           aria-describedby="button-addon2">
         </div>
       </div>
@@ -27,8 +27,8 @@
             <th>{{cat.id}}</th>
             <td>{{cat.nombre}}</td>
             <td>
-              <button @click="formActualizar(index)" class="btn btn-warning">Actualizar</button>
-              <button @click="borrarCategoria(index)" class="btn btn-danger">Borrar</button>
+              <button @click="actualizarCategoria(id,nombre)" class="btn btn-warning">Actualizar</button>
+              <button @click="borrarCategoria(cat.id)" class="btn btn-danger">Borrar</button>
             </td>
           </tr>
         </tbody>
@@ -38,6 +38,7 @@
 
 
 <script>
+import router from "@/router";
     export default {
         name: 'categoriaView',
         data(){
@@ -57,6 +58,28 @@
                 })
                 .then(response => {
                     console.log(response);
+                    this.getCategorias()
+                })
+                .catch(e => console.log(e));
+            },
+            actualizarCategoria(id, nombre) {
+              const actualizarCategoria = (view)=> {
+                router.push(Activos.path);
+              }
+              return{
+                sendtoview
+              }
+            },
+            borrarCategoria(categoria_id){
+              if(confirm("Está seguro de eliminar la categoria " + categoria_id + "?"))
+                axios({
+                    method: "delete",
+                    url: "http://localhost:3000/categorias/"+categoria_id,
+                    data: this.categorias
+                })
+                .then(response => {
+                    console.log(response);
+                    this.getCategorias()
                 })
                 .catch(e => console.log(e));
             },
@@ -71,19 +94,7 @@
                 })
                 .catch(e => console.log(e));
             },
-            setearCheckbox(terminado, id) {
-                axios({
-                    method: "patch",
-                    url: "http://localhost:3000/categorias"+id,
-                    data: {
-                        terminado: !terminado
-                    }
-                })
-                .then(response => {
-                console.log(response);
-                })
-                .catch(e => console.log(e));
-            }
+
         },
         computed: {
         },

@@ -5,40 +5,40 @@
   <form @submit.prevent="agregarActivos()">
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select" v-model="seleccionarCategoria">
+        <select class="form-select" v-model="activosReg.categoria">
           <option value="undefined" disabled>Seleccione Una Categoria</option>
-          <option v-for="selectCategorias in categorias" :key="index">
-            {{selectCategorias.nombre}}</option>
+          <option v-for="selectCategorias in categorias" :value="selectCategorias.id">
+            {{selectCategorias.nombre}}
+          </option>
         </select>
       </div>
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" placeholder="Marca"
+        <input type="text" class="form-control col-4" v-model="activosReg.marca" placeholder="Marca"
         aria-describedby="button-addon2">
       </div>
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" placeholder="Modelo"
+        <input type="text" class="form-control col-4" v-model="activosReg.modelo" placeholder="Modelo"
         aria-describedby="button-addon2">
       </div>
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select">
-          <option selected>Seleccione un Estado</option>
-          <option>Nuevo</option>
-          <option>Usado</option>
-          <option>Desuso</option>
+        <select  class="form-select" v-model="activosReg.estado">
+          <option :value="{}" disabled>Seleccione Un Estado
+            </option>
+            <option v-for = "estado in estados " >{{estado.nombreEstado}}</option>
         </select>
       </div>
     </div>
     <div class="input-group mb-3 justify-content-center">
       <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select" v-model="seleccionarArea">
-          <option value="undefined" disabled>Seleccione Un departamento</option>
-          <option v-for="selectArea in area" :key="index">
+        <select class="form-select"  v-model="activosReg.area">
+          <option value="0" disabled>Seleccione Un departamento</option>
+          <option v-for="selectArea in area" :value="selectArea.id" >
             {{selectArea.nombreArea}}</option>
         </select>
       </div>
@@ -61,7 +61,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(activosFijos, index) in activos">
+        <tr v-for="activosFijos in activos" :key="activosFijos.categoria">
           <th>{{activosFijos.id }}</th>
           <td>{{activosFijos.categoria}}</td>
           <td>{{activosFijos.marca}}</td>
@@ -69,8 +69,8 @@
           <td>{{activosFijos.estado}}</td>
           <td>{{activosFijos.area}}</td>
           <td>
-            <button @click="formActualizar(index)" class="btn btn-warning">Actualizar</button>
-            <button @click="borrarCategoria(index)" class="btn btn-danger">Borrar</button>
+            <button @click="actualizarActivo(activosFijos.id)" class="btn btn-warning">Actualizar</button>
+            <button @click.prevent="borrarActivos(activosFijos.id)" class="btn btn-danger">Borrar</button>
           </td>
         </tr>
       </tbody>
@@ -84,8 +84,18 @@
         data(){
             return {
                 activosReg:{
-
+                  categoria:null,
+                  marca:null,
+                  modelo: null,
+                  estado:null,
+                  area:null
                 },
+                selectEstado: '',
+                estados: [
+                  {nombreEstado: 'Nuevo'},
+                  {nombreEstado: 'Usado'},
+                  {nombreEstado: 'Desuso'}
+                ],
                 categorias:[],
                 area:[],
                 activos:[]
@@ -100,6 +110,7 @@
                 })
                 .then(response => {
                     console.log(response);
+                    this.getActivosFijos()
                 })
                 .catch(e => console.log(e));
             },
@@ -110,6 +121,7 @@
                 })
                 .then(response => {
                     this.activos = response.data;
+
                 console.log(response);
                 })
                 .catch(e => console.log(e));
@@ -135,6 +147,21 @@
                 console.log(response);
                 })
                 .catch(e => console.log(e));
+            },
+            borrarActivos(activos_id) {
+              if(confirm("Está seguro de eliminar el activo " + activos_id + "?"))
+              axios({
+                method:"delete",
+                url: "http://localhost:3000/activos/"+activos_id,
+                data:this.activos
+              })
+              // Borramos de la lista
+              .then(response => {
+                  this.getActivosFijos();
+              console.log(response);
+              })
+              .catch(e => console.log(e));
+
             },
         },
         computed: {
