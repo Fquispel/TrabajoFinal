@@ -3,18 +3,35 @@
     </div>
     <h1>Categorias</h1>
     <form @submit.prevent="agregarCategoria()">
-      <div class="input-group mb-3 justify-content-center">
-        <div class="input-group-prepend flex-colunm col-4">
-          <input type="text" class="form-control col-4" v-model="categoria.nombre" placeholder="Categoria" required
-          aria-describedby="button-addon2">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="input-group mb-3 ">
+              <div class="input-group-prepend flex-colunm col-6">
+                <label for="">Nombre Categoria</label>
+                <input type="text" class="form-control col-4" v-model="categoria.nombre" placeholder="Categoria" required
+                aria-describedby="button-addon2">
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <button class="btn btn-success " type="submit">Agregar</button>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="input-group mb-3 ">
+              <div class="input-group-prepend flex-colunm col-6">
+                <label for="">Buscar Categoria</label>
+                <input type="text" class="form-control col-4" v-model="catBuscar" placeholder="Buscar Categoria"  aria-describedby="button-addon2">
+              </div>
+            </div>
+            <div class="input-group mb-3 ">
+              <button class="btn btn-secondary" @click.prevent="getCategorias()" type="submit">Buscar</button></div>
+          </div>
         </div>
       </div>
-      <div class="input-group mb-3 justify-content-center">
-        <button class="btn btn-success " type="submit">Agregar</button>
-      </div>
     </form>
-    <div class="col m12 card-panel">
-      <table class="table table-bordered ">
+      <div class="col m12 card-panel">
+        <table class="table table-bordered ">
         <thead class="table-dark">
           <tr>
             <th scope="col">Codigo</th>
@@ -27,8 +44,8 @@
             <th>{{cat.id}}</th>
             <td>{{cat.nombre}}</td>
             <td>
-              <button @click="actualizarCategoria(id,nombre)" class="btn btn-warning">Actualizar</button>
-              <button @click="borrarCategoria(cat.id)" class="btn btn-danger">Borrar</button>
+                <button @click="actualizarCategoria(cat.id)" class="btn btn-warning">Actualizar</button>
+                <button @click="borrarCategoria(cat.id)" class="btn btn-danger">Borrar</button>
             </td>
           </tr>
         </tbody>
@@ -43,6 +60,7 @@ import router from "@/router";
         name: 'categoriaView',
         data(){
             return {
+              catBuscar:"",
                 categoria:{
                     nombre:null
                 },
@@ -61,14 +79,10 @@ import router from "@/router";
                     this.getCategorias()
                 })
                 .catch(e => console.log(e));
+                this.categoria ='';
             },
-            actualizarCategoria(id, nombre) {
-              const actualizarCategoria = (view)=> {
-                router.push(Activos.path);
-              }
-              return{
-                sendtoview
-              }
+            actualizarCategoria(categoria_id) {
+              this.$router.push({name:'editarCat',params:{id:categoria_id}});
             },
             borrarCategoria(categoria_id){
               if(confirm("Está seguro de eliminar la categoria " + categoria_id + "?"))
@@ -86,13 +100,14 @@ import router from "@/router";
             getCategorias(){
                 axios({
                     method: "get",
-                    url: "http://localhost:3000/categorias",
+                    url: "http://localhost:3000/categorias/?q="+this.catBuscar,
                 })
                 .then(response => {
                     this.categorias = response.data;
                 console.log(response);
                 })
                 .catch(e => console.log(e));
+                this.categoria ='';
             },
 
         },

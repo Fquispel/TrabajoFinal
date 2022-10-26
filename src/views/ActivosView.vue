@@ -3,49 +3,65 @@
   </div>
   <h1>Activos Fijos</h1>
   <form @submit.prevent="agregarActivos()">
-    <div class="input-group mb-3 justify-content-center">
-      <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select" v-model="activosReg.categoria">
-          <option value="undefined" disabled>Seleccione Una Categoria</option>
-          <option v-for="selectCategorias in categorias" :value="selectCategorias.id">
-            {{selectCategorias.nombre}}
-          </option>
-        </select>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="input-group mb-3 ">
+            <div class="input-group-prepend flex-colunm col-6">
+              <select class="form-select" v-model="activosReg.categoria">
+                <option value="undefined" disabled>Seleccione Una Categoria</option>
+                <option v-for="selectCategorias in categorias" :value="selectCategorias.id">
+                  {{selectCategorias.nombre}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend flex-colunm col-6">
+              <input type="text" class="form-control col-6" v-model="activosReg.marca" placeholder="Marca"
+              aria-describedby="button-addon2">
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend flex-colunm col-6">
+              <input type="text" class="form-control col-6" v-model="activosReg.modelo" placeholder="Modelo"
+              aria-describedby="button-addon2">
+            </div>
+          </div>
+          <div class="input-group mb-3 ">
+            <div class="input-group-prepend flex-colunm col-6">
+              <select  class="form-select" v-model="activosReg.estado">
+                <option :value="{}" disabled>Seleccione Un Estado
+                </option>
+                <option v-for = "estado in estados " >{{estado.nombreEstado}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend flex-colunm col-6">
+              <select class="form-select"  v-model="activosReg.area">
+                <option value="0" disabled>Seleccione Un departamento</option>
+                <option v-for="selectArea in area" :value="selectArea.id" >
+                  {{selectArea.nombreArea}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group mb-3 justify-content-center">
+              <button class="btn btn-success " type="submit">Agregar</button>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="input-group mb-3 ">
+              <div class="input-group-prepend flex-colunm col-6">
+                <label for="">Buscar Activo</label>
+                <input type="text" class="form-control col-4" v-model="activosBuscar" placeholder="Buscar Activo"  aria-describedby="button-addon2">
+              </div>
+            </div>
+            <div class="input-group mb-3 ">
+              <button class="btn btn-secondary" @click.prevent="getActivosFijos()" type="submit">Buscar</button></div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="input-group mb-3 justify-content-center">
-      <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" v-model="activosReg.marca" placeholder="Marca"
-        aria-describedby="button-addon2">
-      </div>
-    </div>
-    <div class="input-group mb-3 justify-content-center">
-      <div class="input-group-prepend flex-colunm col-4">
-        <input type="text" class="form-control col-4" v-model="activosReg.modelo" placeholder="Modelo"
-        aria-describedby="button-addon2">
-      </div>
-    </div>
-    <div class="input-group mb-3 justify-content-center">
-      <div class="input-group-prepend flex-colunm col-4">
-        <select  class="form-select" v-model="activosReg.estado">
-          <option :value="{}" disabled>Seleccione Un Estado
-            </option>
-            <option v-for = "estado in estados " >{{estado.nombreEstado}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="input-group mb-3 justify-content-center">
-      <div class="input-group-prepend flex-colunm col-4">
-        <select class="form-select"  v-model="activosReg.area">
-          <option value="0" disabled>Seleccione Un departamento</option>
-          <option v-for="selectArea in area" :value="selectArea.id" >
-            {{selectArea.nombreArea}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="input-group mb-3 justify-content-center">
-      <button class="btn btn-success " type="submit">Agregar</button>
-    </div>
   </form>
   <div class="col m12 card-panel">
     <table class="table table-bordered ">
@@ -83,6 +99,7 @@
         name: 'activosView',
         data(){
             return {
+              activosBuscar:"",
                 activosReg:{
                   categoria:null,
                   marca:null,
@@ -97,6 +114,7 @@
                   {nombreEstado: 'Desuso'}
                 ],
                 categorias:[],
+
                 area:[],
                 activos:[]
             }
@@ -113,11 +131,12 @@
                     this.getActivosFijos()
                 })
                 .catch(e => console.log(e));
+                this.activosReg='';
             },
             getActivosFijos(){
                 axios({
                     method: "get",
-                    url: "http://localhost:3000/activos"
+                    url: "http://localhost:3000/activos/?q="+this.activosBuscar,
                 })
                 .then(response => {
                     this.activos = response.data;
@@ -147,6 +166,9 @@
                 console.log(response);
                 })
                 .catch(e => console.log(e));
+            },
+            actualizarActivo(activo_id) {
+              this.$router.push({name:'editarActivos',params:{id:activo_id}});
             },
             borrarActivos(activos_id) {
               if(confirm("Está seguro de eliminar el activo " + activos_id + "?"))

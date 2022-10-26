@@ -32,12 +32,28 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/ActivosView.vue')
   },
   {
-    path: '/editarCategoria',
+    path: '/categorias/:id/editar',
     name: 'editarCat',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/editarCategoria.vue')
+    component: () => import('../views/editarCategoria.vue')
+  },
+  {
+    path: '/departamento/:id/editar',
+    name: 'editarDepto',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/editarDepartamento.vue')
+  },
+  {
+    path: '/activos/:id/editar',
+    name: 'editarActivos',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('../views/editarActivo.vue')
   }
 
 

@@ -1,7 +1,7 @@
 {
   "categorias": [
     {
-      "nombre": "Computadoras",
+      "nombre": "a",
       "id": 1
     },
     {
@@ -15,9 +15,9 @@
   ],
   "area": [
     {
-      "nombreArea": "Finanzas",
-      "nombreEncargado": "Jose Linares",
-      "numeroFuncionarios": "4",
+      "nombreArea": "as",
+      "nombreEncargado": "asa",
+      "numeroFuncionarios": "assa",
       "id": 1
     },
     {
@@ -36,11 +36,11 @@
   "activos": [
     {
       "id": 1,
-      "categoria": 1,
-      "marca": "HP",
-      "modelo": "Pavillion 360",
-      "estado": "Usado",
-      "area": "1"
+      "categoria": null,
+      "marca": null,
+      "modelo": null,
+      "estado": null,
+      "area": null
     },
     {
       "categoria": 2,
@@ -49,6 +49,14 @@
       "estado": "Nuevo",
       "area": 3,
       "id": 2
+    },
+    {
+      "categoria": 2,
+      "marca": "aa",
+      "modelo": "12",
+      "estado": "Nuevo",
+      "area": 1,
+      "id": 3
     }
   ]
 }
