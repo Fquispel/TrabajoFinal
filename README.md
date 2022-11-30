@@ -17,3 +17,7 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# Ejecutar Docke
+#docker-compose up -d 
+#docker-compose logs -f
