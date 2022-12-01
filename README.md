@@ -18,14 +18,4 @@ npm run build
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### URL del Proyecto FrontEnd
-```
-https://github.com/Fquispel/TrabajoFinal.git
-```
-### Ejecutar Docker
-```
-docker-compose up -d 
-```
-```
-docker-compose logs -f
-```
+
